@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-/// <summary>
+﻿/// <summary>
 /// 동적배열 클래스
 /// </summary>
 /// <typeparam name="T"></typeparam>
@@ -49,5 +47,4 @@ public class MyList<T>
         // 리스트의 Count를 감소시킴
         Count--;
     } // 인자로 인덱스를 받아 요소를 제거하는 함수
-     
 }
