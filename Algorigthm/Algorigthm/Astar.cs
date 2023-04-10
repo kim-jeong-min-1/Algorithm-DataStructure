@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Xml.Serialization;
 
 namespace Algorigthm
 {
@@ -12,8 +8,11 @@ namespace Algorigthm
         {
             int boardSize;
             Board board = new Board();
+
             do
             {
+                Console.Write("사이즈 입력(홀수) : ");
+
                 boardSize = int.Parse(Console.ReadLine());
                 Console.Clear();
 
@@ -27,17 +26,76 @@ namespace Algorigthm
 
     public class Astar
     {
-        private List<Node> openList = new List<Node>();
-        private List<Node> closedList = new List<Node>();
+        private int[] deltaX = new int[8] { -1, 1, 0, 0, 1, -1, 1, -1 };
+        private int[] deltaY = new int[8] { 0, 0, -1, 1, 1, -1, -1, 1 };
+        private int[] cost = new int[8] { 10, 10, 10, 10, 14, 14, 14, 14 };
+
+        private List<Node> openList;
+        private List<Node> closedList;
 
         private Node start;
         private Node target;
+        private Board board;
 
-        public Astar(Board board)
+        public Astar(Board _board)
         {
-            start = board.nodes[board.size - 2, board.size - 2];
+            openList = new List<Node>();
+            closedList = new List<Node>();
+
+            start = _board.nodes[1, 1];
+            target = _board.nodes[_board.size - 2, _board.size - 2];
+            board = _board;
         }
 
+        private void FindPath()
+        {
+            openList.Add(start);
+
+            while (true)
+            {
+                Node curNode = GetPriorityNode(openList);
+                openList.Remove(curNode);
+                closedList.Add(curNode);
+
+                if(curNode == target)
+
+                for (int i = 0; i < openList.Count; i++)
+                {
+                    var x = openList[i].x + deltaX[i];
+                    var y = openList[i].y + deltaY[i];
+                    if (!CheckNode(x, y)) continue;
+
+
+                }
+            }
+        }
+
+        private bool CheckNode(int x, int y)
+        {
+            if (x > board.size - 1 || y > board.size - 1 || x < 0 || y < 0) return false;
+            else if (board.nodes[x, y].type == NodeType.Fill) return false;
+            else if (closedList.Contains(board.nodes[x, y])) return false;
+
+            return true;
+        }
+
+        private Node GetPriorityNode(List<Node> nodes)
+        {
+            Node _node = null;
+
+            var index = nodes.Count;
+            var f = int.MaxValue;
+            while (index != 0)
+            {
+                index--;
+                if (nodes[index].F < f)
+                {
+                    _node = nodes[index];
+                    f = nodes[index].F;
+                }
+            }
+            return _node;
+        }
     }
 
     public class Board
@@ -130,12 +188,13 @@ namespace Algorigthm
         }
     }
 
-    public struct Node
+    public class Node
     {
         public int x, y;
         public int F { get { return G + H; } }
-        public int G { get; private set; } 
+        public int G { get; private set; }
         public int H { get; private set; } 
+
         public NodeType type { get; set; }
 
         public void SetNode(int g, int h)
