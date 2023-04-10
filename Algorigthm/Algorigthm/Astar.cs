@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace Algorigthm
 {
@@ -49,11 +50,12 @@ namespace Algorigthm
 
         private void FindPath()
         {
+            Node curNode;
             openList.Add(start);
 
             while (true)
             {
-                Node curNode = GetPriorityNode(openList);
+                curNode = GetPriorityNode(openList);
                 openList.Remove(curNode);
                 closedList.Add(curNode);
 
@@ -91,15 +93,16 @@ namespace Algorigthm
         {
             Node _node = null;
 
-            var index = nodes.Count;
             var f = int.MaxValue;
-            while (index != 0)
+            var h = int.MaxValue;
+
+            for (int i = 0; i < nodes.Count; i++)
             {
-                index--;
-                if (nodes[index].F < f)
+                if (nodes[i].F <= f && nodes[i].H < h)
                 {
-                    _node = nodes[index];
-                    f = nodes[index].F;
+                    _node = nodes[i];
+                    f = nodes[i].F;
+                    h = nodes[i].H;
                 }
             }
             return _node;
