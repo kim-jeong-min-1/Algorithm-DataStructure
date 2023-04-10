@@ -57,15 +57,23 @@ namespace Algorigthm
                 openList.Remove(curNode);
                 closedList.Add(curNode);
 
-                if(curNode == target)
+                if (curNode == target) break;
 
-                for (int i = 0; i < openList.Count; i++)
+                for (int i = 0; i < cost.Length; i++)
                 {
-                    var x = openList[i].x + deltaX[i];
-                    var y = openList[i].y + deltaY[i];
+                    var x = curNode.x + deltaX[i];
+                    var y = curNode.y + deltaY[i];
                     if (!CheckNode(x, y)) continue;
 
+                    if (!openList.Contains(board.nodes[x, y]))
+                    {
+                        var g = curNode.G + cost[i];
+                        var h = 10 * (Math.Abs(target.x - board.nodes[x, y].x) + Math.Abs(target.y - board.nodes[x, y].y));
 
+                        board.nodes[x, y].SetNode(g, h);
+                        board.nodes[x, y].parentNode = curNode;
+                        openList.Add(board.nodes[x, y]);
+                    }
                 }
             }
         }
@@ -192,9 +200,10 @@ namespace Algorigthm
     {
         public int x, y;
         public int F { get { return G + H; } }
-        public int G { get; private set; }
-        public int H { get; private set; } 
+        public int G { get; private set; } = 0;
+        public int H { get; private set; } = 0;
 
+        public Node? parentNode { get; set; } = null;
         public NodeType type { get; set; }
 
         public void SetNode(int g, int h)
