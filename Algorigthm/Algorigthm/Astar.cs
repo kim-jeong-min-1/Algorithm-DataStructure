@@ -59,6 +59,7 @@ namespace Algorigthm
                 openList.Remove(curNode);
                 closedList.Add(curNode);
 
+                //마지막 경로 연결만 추가하면 끝!
                 if (curNode == target) break;
 
                 for (int i = 0; i < cost.Length; i++)
@@ -67,14 +68,15 @@ namespace Algorigthm
                     var y = curNode.y + deltaY[i];
                     if (!CheckNode(x, y)) continue;
 
-                    if (!openList.Contains(board.nodes[x, y]))
+                    var neighBorNode = board.nodes[x, y];
+                    if (!openList.Contains(neighBorNode))
                     {
                         var g = curNode.G + cost[i];
-                        var h = 10 * (Math.Abs(target.x - board.nodes[x, y].x) + Math.Abs(target.y - board.nodes[x, y].y));
+                        var h = 10 * (Math.Abs(target.x - neighBorNode.x) + Math.Abs(target.y - neighBorNode.y));
 
-                        board.nodes[x, y].SetNode(g, h);
-                        board.nodes[x, y].parentNode = curNode;
-                        openList.Add(board.nodes[x, y]);
+                        neighBorNode.SetNode(g, h);
+                        neighBorNode.parentNode = curNode;
+                        openList.Add(neighBorNode);
                     }
                 }
             }
