@@ -1,0 +1,15 @@
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\bin\Debug\net6.0\Algorigthm.exe
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\bin\Debug\net6.0\Algorigthm.deps.json
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\bin\Debug\net6.0\Algorigthm.runtimeconfig.json
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\bin\Debug\net6.0\Algorigthm.dll
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\bin\Debug\net6.0\Algorigthm.pdb
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\Algorigthm.csproj.AssemblyReference.cache
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\Algorigthm.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\Algorigthm.AssemblyInfoInputs.cache
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\Algorigthm.AssemblyInfo.cs
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\Algorigthm.csproj.CoreCompileInputs.cache
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\Algorigthm.dll
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\refint\Algorigthm.dll
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\Algorigthm.pdb
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\Algorigthm.genruntimeconfig.cache
+C:\Users\kjmgi\GitHub\Algorithm-DataStructure\Algorigthm\Algorigthm\obj\Debug\net6.0\ref\Algorigthm.dll
