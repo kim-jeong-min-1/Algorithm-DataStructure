@@ -4,6 +4,7 @@ namespace Algorigthm
 {
     public class Program
     {
+        //Board 사이즈를 입력 받고 Astar 실행
         static void Main(string[] args)
         {
             int boardSize;
@@ -18,7 +19,7 @@ namespace Algorigthm
 
                 board.InitializeBoard(boardSize);
                 board.DrawBoard();
-            } while (boardSize % 2 == 0);
+            } while (boardSize % 2 == 0 || boardSize == 1);
 
             Astar astar = new Astar(board);
             astar.FindPath();
@@ -28,10 +29,13 @@ namespace Algorigthm
 
     public class Astar
     {
+        // 인접 노드 위치와 이동비용
         private int[] deltaX = new int[8] { -1, 1, 0, 0, 1, -1, 1, -1 };
         private int[] deltaY = new int[8] { 0, 0, -1, 1, 1, -1, -1, 1 };
         private int[] cost = new int[8] { 10, 10, 10, 10, 14, 14, 14, 14 };
-        private int diagonalIndex = 3;
+
+        // 대각선 인접 노드 시작지점 인덱스
+        private const int diagonalIndex = 4;
 
         private List<Node> openList;
         private List<Node> closedList;
@@ -46,14 +50,20 @@ namespace Algorigthm
             openList = new List<Node>();
             closedList = new List<Node>();
 
+            // 시작지점 할당
             start = _board.nodes[1, 1];
-            target = _board.nodes[_board.size - 2, _board.size - 2];
+
+            // 도착지점 할당
+            var rand = new Random();
+            target = _board.nodes[rand.Next(1, _board.size), _board.size - 2];
+
             board = _board;
         }
 
+        //최단 경로로 이동
         public void WalkPath()
         {
-            const int WAIT_TICK = 100;
+            const int WAIT_TICK = 500;
             int lastTick = 0;
 
             while (finalPathQueue.Count != 0)
@@ -67,10 +77,12 @@ namespace Algorigthm
 
                 Console.Clear();
                 board.DrawBoard(moveNode, target);
+
                 lastTick = curTick;
             }
         }
 
+        //최단 경로 구하기
         public void FindPath()
         {
             Node curNode;
@@ -78,10 +90,13 @@ namespace Algorigthm
 
             while (true)
             {
+                // 가장 작은 F 코스트의 노드를 현재 노드로 설정 
+                // 현재 노드를 closedList 추가 openList에서 제거
                 curNode = GetPriorityNode(openList);
                 openList.Remove(curNode);
                 closedList.Add(curNode);
 
+                // 현재 노드가 목표 위치라면 경로를 연결시킨다.
                 if (curNode == target)
                 {
                     Queue<Node> tempPathQueue = new Queue<Node>();
@@ -99,12 +114,18 @@ namespace Algorigthm
 
                 for (int i = 0; i < cost.Length; i++)
                 {
+                    // 인접 노드의 위치를 구한다.
                     var x = curNode.x + deltaX[i];
                     var y = curNode.y + deltaY[i];
 
+                    // 접근 가능한 노드인지 체크
                     if (!CheckNode(x, y)) continue;
-                    if (i >= diagonalIndex) if (!DiagonalCheck(curNode, x, y)) continue;
 
+                    // 대각선 이동이 가능한지 체크
+                    if (i >= diagonalIndex) 
+                        if (!DiagonalCheck(curNode, x, y)) continue;
+
+                    // 인접 노드의 G와 H를 설정하고 openList 추가
                     var neighBorNode = board.nodes[x, y];
                     if (!openList.Contains(neighBorNode))
                     {
@@ -119,6 +140,7 @@ namespace Algorigthm
             }
         }
 
+        //현재 Node가 접근 가능한 Node 인지 체크
         private bool CheckNode(int x, int y)
         {
             if (x >= board.size - 1 || y >= board.size - 1 || x <= 0 || y <= 0) return false;
@@ -128,6 +150,7 @@ namespace Algorigthm
             return true;
         }
 
+        //대각선 이동시 벽을 뚫고 가는지 체크
         private bool DiagonalCheck(Node curNode, int x, int y)
         {
             if (board.nodes[curNode.x, y].type == NodeType.Fill &&
@@ -137,6 +160,7 @@ namespace Algorigthm
             return true;
         }
 
+        //openList의 Node 목록 중 가장 작은 F 코스트를 가진 노드를 리턴.
         private Node GetPriorityNode(List<Node> nodes)
         {
             Node _node = null;
@@ -172,9 +196,9 @@ namespace Algorigthm
             nodes = new Node[size, size];
 
             //노도들을 초기화 하고 x나 y가 짝수인 노드들만 비워둔다.
-            for (int x = 0; x < size; x++)
+            for (int y = 0; y < size; y++)
             {
-                for (int y = 0; y < size; y++)
+                for (int x = 0; x < size; x++)
                 {
                     nodes[x, y] = new Node();
                     nodes[x, y].x = x;
@@ -189,9 +213,9 @@ namespace Algorigthm
 
             //Binary Tree 알고리즘을 이용하여 랜덤하게 미로를 생성
             Random rand = new Random();
-            for (int x = 0; x < size; x++)
+            for (int y = 0; y < size; y++)
             {
-                for (int y = 0; y < size; y++)
+                for (int x = 0; x < size; x++)
                 {
                     if (x % 2 == 0 || y % 2 == 0) continue;
                     if (x == size - 2 && y == size - 2) continue;
@@ -220,13 +244,13 @@ namespace Algorigthm
         }
 
         //미로를 그리는 함수
-        public void DrawBoard(Node curNode = null, Node targetNode = null)
+        public void DrawBoard(Node ?curNode = null, Node ?targetNode = null)
         {
-            for (int x = 0; x < size; x++)
+            for (int y = 0; y < size; y++)
             {
-                for (int y = 0; y < size; y++)
+                for (int x = 0; x < size; x++)
                 {
-                    if (curNode != null || targetNode != null)
+                    if (curNode != null && targetNode != null)
                     {
                         if (curNode.x == x && curNode.y == y)
                         {
@@ -256,7 +280,7 @@ namespace Algorigthm
                 case NodeType.Empty:
                     return ConsoleColor.White;
                 case NodeType.Fill:
-                    return ConsoleColor.DarkGray;
+                    return ConsoleColor.DarkGreen;
                 default:
                     return ConsoleColor.White;
             }
