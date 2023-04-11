@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml.Serialization;
+﻿using System.Linq;
 
 namespace Algorigthm
 {
@@ -22,6 +21,8 @@ namespace Algorigthm
             } while (boardSize % 2 == 0);
 
             Astar astar = new Astar(board);
+            astar.FindPath();
+            astar.WalkPath();
         }
     }
 
@@ -30,9 +31,11 @@ namespace Algorigthm
         private int[] deltaX = new int[8] { -1, 1, 0, 0, 1, -1, 1, -1 };
         private int[] deltaY = new int[8] { 0, 0, -1, 1, 1, -1, -1, 1 };
         private int[] cost = new int[8] { 10, 10, 10, 10, 14, 14, 14, 14 };
+        private int diagonalIndex = 3;
 
         private List<Node> openList;
         private List<Node> closedList;
+        private Queue<Node> finalPathQueue;
 
         private Node start;
         private Node target;
@@ -48,7 +51,27 @@ namespace Algorigthm
             board = _board;
         }
 
-        private void FindPath()
+        public void WalkPath()
+        {
+            const int WAIT_TICK = 100;
+            int lastTick = 0;
+
+            while (finalPathQueue.Count != 0)
+            {
+                int curTick = System.Environment.TickCount;
+
+                if (curTick - lastTick < WAIT_TICK)
+                    continue;
+
+                Node moveNode = finalPathQueue.Dequeue();
+
+                Console.Clear();
+                board.DrawBoard(moveNode, target);
+                lastTick = curTick;
+            }
+        }
+
+        public void FindPath()
         {
             Node curNode;
             openList.Add(start);
@@ -59,14 +82,28 @@ namespace Algorigthm
                 openList.Remove(curNode);
                 closedList.Add(curNode);
 
-                //마지막 경로 연결만 추가하면 끝!
-                if (curNode == target) break;
+                if (curNode == target)
+                {
+                    Queue<Node> tempPathQueue = new Queue<Node>();
+                    Node pathCurNode = target;
+
+                    while (pathCurNode != start)
+                    {
+                        tempPathQueue.Enqueue(pathCurNode);
+                        pathCurNode = pathCurNode.parentNode;
+                    }
+                    tempPathQueue.Enqueue(start);
+                    finalPathQueue = new Queue<Node>(tempPathQueue.Reverse());
+                    break;
+                }
 
                 for (int i = 0; i < cost.Length; i++)
                 {
                     var x = curNode.x + deltaX[i];
                     var y = curNode.y + deltaY[i];
+
                     if (!CheckNode(x, y)) continue;
+                    if (i >= diagonalIndex) if (!DiagonalCheck(curNode, x, y)) continue;
 
                     var neighBorNode = board.nodes[x, y];
                     if (!openList.Contains(neighBorNode))
@@ -84,9 +121,18 @@ namespace Algorigthm
 
         private bool CheckNode(int x, int y)
         {
-            if (x > board.size - 1 || y > board.size - 1 || x < 0 || y < 0) return false;
+            if (x >= board.size - 1 || y >= board.size - 1 || x <= 0 || y <= 0) return false;
             else if (board.nodes[x, y].type == NodeType.Fill) return false;
             else if (closedList.Contains(board.nodes[x, y])) return false;
+
+            return true;
+        }
+
+        private bool DiagonalCheck(Node curNode, int x, int y)
+        {
+            if (board.nodes[curNode.x, y].type == NodeType.Fill &&
+                board.nodes[x, curNode.y].type == NodeType.Fill)
+                return false;
 
             return true;
         }
@@ -126,10 +172,11 @@ namespace Algorigthm
             nodes = new Node[size, size];
 
             //노도들을 초기화 하고 x나 y가 짝수인 노드들만 비워둔다.
-            for (int y = 0; y < size; y++)
+            for (int x = 0; x < size; x++)
             {
-                for (int x = 0; x < size; x++)
+                for (int y = 0; y < size; y++)
                 {
+                    nodes[x, y] = new Node();
                     nodes[x, y].x = x;
                     nodes[x, y].y = y;
 
@@ -142,9 +189,9 @@ namespace Algorigthm
 
             //Binary Tree 알고리즘을 이용하여 랜덤하게 미로를 생성
             Random rand = new Random();
-            for (int y = 0; y < size; y++)
+            for (int x = 0; x < size; x++)
             {
-                for (int x = 0; x < size; x++)
+                for (int y = 0; y < size; y++)
                 {
                     if (x % 2 == 0 || y % 2 == 0) continue;
                     if (x == size - 2 && y == size - 2) continue;
@@ -173,12 +220,27 @@ namespace Algorigthm
         }
 
         //미로를 그리는 함수
-        public void DrawBoard()
+        public void DrawBoard(Node curNode = null, Node targetNode = null)
         {
-            for (int y = 0; y < size; y++)
+            for (int x = 0; x < size; x++)
             {
-                for (int x = 0; x < size; x++)
+                for (int y = 0; y < size; y++)
                 {
+                    if (curNode != null || targetNode != null)
+                    {
+                        if (curNode.x == x && curNode.y == y)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.Write(CIRCLE);
+                            continue;
+                        }
+                        else if (targetNode.x == x && targetNode.y == y)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write(CIRCLE);
+                            continue;
+                        }
+                    }
                     Console.ForegroundColor = GetTileColor(nodes[x, y].type);
                     Console.Write(CIRCLE);
                 }
@@ -208,7 +270,7 @@ namespace Algorigthm
         public int G { get; private set; } = 0;
         public int H { get; private set; } = 0;
 
-        public Node? parentNode { get; set; } = null;
+        public Node parentNode { get; set; } = null;
         public NodeType type { get; set; }
 
         public void SetNode(int g, int h)
