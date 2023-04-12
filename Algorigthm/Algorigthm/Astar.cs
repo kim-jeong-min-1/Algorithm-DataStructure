@@ -1,5 +1,4 @@
-﻿using System.Linq;
-
+﻿
 namespace Algorithm
 {
     public class Program
@@ -54,8 +53,7 @@ namespace Algorithm
             start = _board.nodes[1, 1];
 
             // 도착지점 할당
-            var rand = new Random();
-            target = _board.nodes[rand.Next(1, _board.size), _board.size - 2];
+            target = _board.nodes[_board.size - 2, _board.size - 2];
 
             board = _board;
         }
@@ -122,7 +120,7 @@ namespace Algorithm
                     if (!CheckNode(x, y)) continue;
 
                     // 대각선 이동이 가능한지 체크
-                    if (i >= diagonalIndex) 
+                    if (i >= diagonalIndex)
                         if (!DiagonalCheck(curNode, x, y)) continue;
 
                     // 인접 노드의 G와 H를 설정하고 openList 추가
@@ -181,6 +179,29 @@ namespace Algorithm
         }
     }
 
+    //노드
+    public enum NodeType
+    {
+        Empty,
+        Fill
+    }
+    public class Node
+    {
+        public int x, y;
+        public int F { get { return G + H; } }
+        public int G { get; private set; } = 0;
+        public int H { get; private set; } = 0;
+
+        public Node parentNode { get; set; } = null;
+        public NodeType type { get; set; }
+
+        public void SetNode(int g, int h)
+        {
+            G = g;
+            H = h;
+        }
+    }
+ 
     public class Board
     {
         const char CIRCLE = '\u25cf';
@@ -244,7 +265,7 @@ namespace Algorithm
         }
 
         //미로를 그리는 함수
-        public void DrawBoard(Node ?curNode = null, Node ?targetNode = null)
+        public void DrawBoard(Node? curNode = null, Node? targetNode = null)
         {
             for (int y = 0; y < size; y++)
             {
@@ -285,28 +306,5 @@ namespace Algorithm
                     return ConsoleColor.White;
             }
         }
-    }
-
-    public class Node
-    {
-        public int x, y;
-        public int F { get { return G + H; } }
-        public int G { get; private set; } = 0;
-        public int H { get; private set; } = 0;
-
-        public Node parentNode { get; set; } = null;
-        public NodeType type { get; set; }
-
-        public void SetNode(int g, int h)
-        {
-            G = g;
-            H = h;
-        }
-    }
-
-    public enum NodeType
-    {
-        Empty,
-        Fill
     }
 }
