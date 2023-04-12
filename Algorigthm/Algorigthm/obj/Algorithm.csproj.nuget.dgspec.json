@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorigthm.csproj": {}
+    "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorithm.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorigthm.csproj": {
+    "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorithm.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorigthm.csproj",
-        "projectName": "Algorigthm",
-        "projectPath": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorigthm.csproj",
+        "projectUniqueName": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorithm.csproj",
+        "projectName": "Algorithm",
+        "projectPath": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorithm.csproj",
         "packagesPath": "C:\\Users\\kjmgi\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\obj\\",
         "projectStyle": "PackageReference",

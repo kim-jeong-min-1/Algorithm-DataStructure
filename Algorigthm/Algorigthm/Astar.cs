@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Algorigthm
+namespace Algorithm
 {
     public class Program
     {

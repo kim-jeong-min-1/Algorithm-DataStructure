@@ -14,9 +14,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorigthm.csproj",
-      "projectName": "Algorigthm",
-      "projectPath": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorigthm.csproj",
+      "projectUniqueName": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorithm.csproj",
+      "projectName": "Algorithm",
+      "projectPath": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\Algorithm.csproj",
       "packagesPath": "C:\\Users\\kjmgi\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\kjmgi\\GitHub\\Algorithm-DataStructure\\Algorigthm\\Algorigthm\\obj\\",
       "projectStyle": "PackageReference",
@@ -60,12 +60,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "frameworkReferences": {
-          "Microsoft.NETCore.App": {
-            "privateAssets": "all"
-          }
-        },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
